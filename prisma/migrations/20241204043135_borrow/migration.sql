@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE `borrow` ADD COLUMN `actual_return_date` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3);

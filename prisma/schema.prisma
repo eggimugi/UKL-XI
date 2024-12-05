@@ -1,0 +1,62 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model user {
+  id        Int      @id @default(autoincrement())
+  username  String   @unique @default("")
+  password  String   @default("")
+  role      roleType
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+  borrow    borrow[]
+}
+
+model inventory {
+  id        Int      @id @default(autoincrement())
+  name      String   @default("")
+  category  String   @default("")
+  location  String   @default("")
+  quantity  Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+  borrow    borrow[]
+}
+
+model borrow {
+  id               Int            @id @default(autoincrement())
+  user_id          Int            @default(0)
+  item_id          Int            @default(0)
+  borrow_date      DateTime       @default(now())
+  return_date      DateTime       @default(now())
+  createdAt        DateTime       @default(now())
+  updatedAt        DateTime       @default(now()) @updatedAt
+  user_detail      user           @relation(fields: [user_id], references: [id])
+  inventory_detail inventory      @relation(fields: [item_id], references: [id])
+  returnBorrow     returnBorrow[]
+}
+
+model returnBorrow {
+  id                 Int      @id @default(autoincrement())
+  borrow_id          Int      @default(0)
+  actual_return_date DateTime @default(now())
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @default(now()) @updatedAt
+  return_detail      borrow   @relation(fields: [borrow_id], references: [id])
+}
+
+enum roleType {
+  Admin
+  User
+}
