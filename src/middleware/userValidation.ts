@@ -20,7 +20,7 @@ const createUserValidation = (req: Request, res: Response, next: NextFunction): 
 const updateUserSchema = Joi.object({
   username: Joi.string().optional(),
   password: Joi.string().optional(),
-  role: Joi.string().valid("Admin", "User").required(),
+  role: Joi.string().valid("Admin", "User").optional(),
 });
 
 const updateUserValidation = (req: Request, res: Response, next: NextFunction): any => {

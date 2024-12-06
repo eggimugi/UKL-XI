@@ -144,6 +144,7 @@ const authentication = async (req: Request, res: Response): Promise<any> => {
   try {
     const { username, password } = req.body;
     const findUser = await prisma.user.findFirst({ where: { username } });
+
     if (!findUser) {
       return res.status(200).json({ message: "Username not registered" });
     }
@@ -152,12 +153,9 @@ const authentication = async (req: Request, res: Response): Promise<any> => {
       return res.status(200).json({ message: "Invalid Password" });
     }
 
-    if (findUser.role !== "Admin") {
-      return res.status(200).json({ message: "Access restricted to admin only" });
-    }
-
     const payload = {
       username: findUser.username,
+      role: findUser.role,
     };
     const signature = process.env.SECRET || ``;
 

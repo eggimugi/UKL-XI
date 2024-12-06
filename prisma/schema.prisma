@@ -14,24 +14,26 @@ datasource db {
 }
 
 model user {
-  id        Int      @id @default(autoincrement())
-  username  String   @unique @default("")
-  password  String   @default("")
-  role      roleType
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now()) @updatedAt
-  borrow    borrow[]
+  id           Int            @id @default(autoincrement())
+  username     String         @unique @default("")
+  password     String         @default("")
+  role         roleType
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @default(now()) @updatedAt
+  borrow       borrow[]
+  returnBorrow returnBorrow[]
 }
 
 model inventory {
-  id        Int      @id @default(autoincrement())
-  name      String   @default("")
-  category  String   @default("")
-  location  String   @default("")
-  quantity  Int      @default(0)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now()) @updatedAt
-  borrow    borrow[]
+  id           Int            @id @default(autoincrement())
+  name         String         @default("")
+  category     String         @default("")
+  location     String         @default("")
+  quantity     Int            @default(0)
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @default(now()) @updatedAt
+  borrow       borrow[]
+  returnBorrow returnBorrow[]
 }
 
 model borrow {
@@ -48,12 +50,16 @@ model borrow {
 }
 
 model returnBorrow {
-  id                 Int      @id @default(autoincrement())
-  borrow_id          Int      @default(0)
-  actual_return_date DateTime @default(now())
-  createdAt          DateTime @default(now())
-  updatedAt          DateTime @default(now()) @updatedAt
-  return_detail      borrow   @relation(fields: [borrow_id], references: [id])
+  id                 Int       @id @default(autoincrement())
+  borrow_id          Int       @default(0)
+  user_id            Int       @default(0)
+  item_id            Int       @default(0)
+  actual_return_date DateTime  @default(now())
+  createdAt          DateTime  @default(now())
+  updatedAt          DateTime  @default(now()) @updatedAt
+  borrow_detail      borrow    @relation(fields: [borrow_id], references: [id])
+  user_detail        user      @relation(fields: [user_id], references: [id])
+  item_detail        inventory @relation(fields: [item_id], references: [id])
 }
 
 enum roleType {
