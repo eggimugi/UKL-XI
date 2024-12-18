@@ -3,7 +3,7 @@ import { Request, Response } from "express";
 
 const prisma = new PrismaClient({ errorFormat: "minimal" });
 
-const createInventory = async (req: Request, res: Response): Promise<any> => {
+const createInventories = async (req: Request, res: Response): Promise<any> => {
   try {
     const name: string = req.body.name
     const category: string = req.body.category
@@ -29,7 +29,7 @@ const createInventory = async (req: Request, res: Response): Promise<any> => {
   }
 };
 
-const readInventory = async (req: Request, res: Response): Promise<any> => {
+const readInventories = async (req: Request, res: Response): Promise<any> => {
   try {
     const { id } = req.params;
 
@@ -57,7 +57,7 @@ const readInventory = async (req: Request, res: Response): Promise<any> => {
   }
 };
 
-const updateInventory = async (req: Request, res: Response): Promise<any> => {
+const updateInventories = async (req: Request, res: Response): Promise<any> => {
   try {
     const { id } = req.params;
 
@@ -97,7 +97,7 @@ const updateInventory = async (req: Request, res: Response): Promise<any> => {
   }
 };
 
-const deleteInventory = async (req: Request, res: Response): Promise<any> => {
+const deleteInventories = async (req: Request, res: Response): Promise<any> => {
   try {
     const { id } = req.params;
 
@@ -126,4 +126,4 @@ const deleteInventory = async (req: Request, res: Response): Promise<any> => {
   }
 };
 
-export { createInventory, readInventory, updateInventory, deleteInventory };
+export { createInventories, readInventories, updateInventories, deleteInventories };
